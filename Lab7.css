@@ -1,8 +1,8 @@
 /* Lab7.css */
 :root {
     --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
+    --secondary-color: #ffaaff;
+    --accent-color: #ff97bc;
     --text-color: #333;
     --light-bg: #f5f7fa;
     --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@ body {
 }
 
 .resume-header {
-    background: linear-gradient(45deg, var(--secondary-color), #55aaff);
+    background: linear-gradient(45deg, var(--secondary-color), #ffaa7f);
     color: white;
     padding: 25px;
     text-align: center;
