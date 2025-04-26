@@ -1,4 +1,4 @@
-/* Lab6-2.css */
+/* Lab7.css */
 :root {
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
@@ -88,7 +88,7 @@ body {
     gap: 20px;
 }
 
-/* 照片区域样式 */
+/* 照片区域样式 - 无缝轮播 */
 .photo-section {
     flex: 0 0 150px;
     height: 200px;
@@ -105,15 +105,25 @@ body {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.photo-section img {
+.photo-carousel {
+    position: relative;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
+    overflow: hidden;
 }
 
-.photo-section:hover img {
-    transform: scale(1.1);
+.carousel-container {
+    display: flex;
+    width: 400%; /* 图片数量+1 * 100% */
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-container img {
+    width: 25%; /* 100% / 图片数量 */
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 /* 个人信息块样式 */
@@ -189,11 +199,6 @@ body {
     color: var(--accent-color);
 }
 
-.section-content {
-    font-size: 1.1em;
-    padding-left: 25px;
-}
-
 /* 其他部分样式 */
 .full-width-section {
     width: calc(100% - 20px);
@@ -207,167 +212,6 @@ body {
 .full-width-section:hover {
     background: rgba(196, 255, 251, 0.6);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.full-width-section .section-content {
-    padding-left: 0;
-}
-
-.skills-list, .projects-list {
-    list-style-type: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-}
-
-.skills-list li, .projects-list li {
-    position: relative;
-    padding: 12px 15px 12px 40px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    transition: var(--transition);
-}
-
-.skills-list li:hover, .projects-list li:hover {
-    background: white;
-    transform: translateX(5px);
-}
-
-.skills-list li::before, .projects-list li::before {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    position: absolute;
-    left: 15px;
-    color: var(--secondary-color);
-    transition: var(--transition);
-}
-
-.projects-list li::before {
-    content: '\f542';
-}
-
-.skills-list li:hover::before, .projects-list li:hover::before {
-    color: var(--accent-color);
-    transform: scale(1.3);
-}
-
-.highlight {
-    color: var(--accent-color);
-    font-weight: 600;
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-@media (max-width: 768px) {
-    .resume-header h1 {
-        font-size: 1.8em;
-    }
-
-    .info-section {
-        grid-template-columns: 1fr;
-    }
-
-    .photo-section {
-        margin: 0 auto 20px;
-    }
-}
-
-/* 照片轮播容器 */
-.photo-section {
-    flex: 0 0 150px;
-    height: 200px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: var(--transition);
-    position: relative;
-    align-self: flex-start;
-}
-
-/* 照片轮播内部 */
-.photo-carousel {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.photo-carousel img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1s ease-in-out, transform 0.5s ease;
-    transform: scale(0.9);
-}
-
-.photo-carousel img.active {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 2;
-}
-
-/* 顺序轮播动画 */
-.photo-carousel img.next {
-    opacity: 0;
-    transform: translateX(100%);
-}
-
-.photo-carousel img.active {
-    animation: slideIn 1s forwards;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.photo-carousel img.leaving {
-    animation: slideOut 1s forwards;
-}
-
-@keyframes slideOut {
-    from {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
 }
 
 /* 轮播指示器 */
@@ -395,7 +239,6 @@ body {
     background-color: white;
     transform: scale(1.3);
 }
-
 
 /* 表单输入控件样式 */
 input[type="text"],
@@ -430,15 +273,28 @@ textarea {
     resize: vertical;
 }
 
-/* 列表项输入框样式 */
-.skills-list input[type="text"],
-.projects-list input[type="text"] {
-    border: none;
-    background: transparent;
-    padding-left: 0;
+/* 列表项样式 */
+.skills-list, .projects-list {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
 }
 
-/* 添加和删除按钮样式 */
+.skills-list li, .projects-list li {
+    position: relative;
+    padding: 12px 15px 12px 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.skills-list li:hover, .projects-list li:hover {
+    background: white;
+    transform: translateX(5px);
+}
+
+/* 按钮样式 */
 .add-btn, .remove-btn {
     background: none;
     border: none;
@@ -536,4 +392,114 @@ textarea {
 
 .photo-upload label:hover {
     background-color: #2980b9;
+}
+
+/* 动画效果 */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .resume-header h1 {
+        font-size: 1.8em;
+    }
+
+    .info-section {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-section {
+        margin: 0 auto 20px;
+    }
+    
+    /* 移动端调整轮播图宽度 */
+    .carousel-container {
+        width: 1000%; /* 根据实际图片数量调整 */
+    }
+    
+    .carousel-container img {
+        width: 33.33%; /* 100% / 图片数量 */
+    }
+}
+
+/* 照片轮播区域样式 */
+/* 添加轮播图专用样式 */
+        .photo-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-track img {
+            width: 100%; /* 每张图片宽度为容器宽度 */
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+            padding: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+        
+        .carousel-indicators span {
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-indicators span.active {
+            background-color: white;
+            transform: scale(1.3);
+        }
+
+/* 触摸反馈效果 */
+.carousel-track img {
+    transition: transform 0.3s ease;
+}
+
+.carousel-track img:active {
+    transform: scale(0.98);
 }
